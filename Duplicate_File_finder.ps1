@@ -1,6 +1,6 @@
 ﻿################################################################################
 #                              File System Reports                             #
-#                           Written By: TSgt Brechtel                          #
+#                           Written By: MSgt Brechtel                          #
 #                                                                              #
 ################################################################################
 #####Global Variables###########################################################
@@ -12,7 +12,7 @@ $dir = Split-Path $scriptpath
 Set-Location $dir
 ################################################################################
 clear-host
-$version="1.0"
+$version="1.1"
 $script:prompt_return = "Null";
 $script:excel_report = "Null" 
 $loading = New-Object System.Windows.Forms.Label
@@ -25,7 +25,7 @@ function duplicate_file_finder
     
     $form = New-Object System.Windows.Forms.Form
     $form.FormBorderStyle = 'Fixed3D'
-    #$form.BackColor = "#000022"
+    $form.BackColor = "#434343"
     #$Form.Opacity = 0.9
     $form.MaximizeBox = $false
     $form.Icon = $icon
@@ -45,7 +45,7 @@ function duplicate_file_finder
     $title1.TextAlign = 'MiddleCenter'
     $title1.Width=$form.Width
     $title1.Top = 6
-    #$title1.ForeColor = "white"
+    $title1.ForeColor = "white"
     #$title1.BackColor = "darkGray"
     $title1.Left = (($form.width / 2) - ($form.width / 2))
     $form.Controls.Add($title1)
@@ -54,7 +54,7 @@ function duplicate_file_finder
     $title2.Font = New-Object System.Drawing.Font("Copperplate Gothic",7.5,[System.Drawing.FontStyle]::Regular)
     $title2.Text="Written by: Anthony Brechtel`nVer $version"
     $title2.TextAlign = 'MiddleCenter'
-    #$title2.ForeColor = "white"
+    $title2.ForeColor = "white"
     #$title1.BackColor = "darkGray"
     $title2.Width=$form.Width
     $title2.Height=40
@@ -67,7 +67,9 @@ function duplicate_file_finder
     ##########################
     $report_button = New-Object System.Windows.Forms.Button
     $report_button.Width=150
-    $report_button.top = 165 
+    $report_button.top = 165
+    $report_button.forecolor = "white"
+    $report_button.backcolor = "#606060"
     $report_button.Left = ($form.width / 2) - ($report_button.width / 2);   
     $report_button.Text='View Report'
     $report_button.Add_Click({
@@ -81,6 +83,8 @@ function duplicate_file_finder
     $scan_target_button = New-Object System.Windows.Forms.Button
     $scan_target_button.Width=150
     $scan_target_button.top = 140 
+    $scan_target_button.forecolor = "white"
+    $scan_target_button.backcolor = "#606060"
     $scan_target_button.Left = ($form.width / 2) - ($scan_target_button.width / 2);   
     $scan_target_button.Text='Scan Target'
     $scan_target_button.Add_Click({
@@ -130,6 +134,8 @@ function duplicate_file_finder
     $file1_dialog_button.Text='Browse for Target Directory'
     $form.Controls.Add($file1_dialog_button)
     #$file1_dialog_button.BackColor ="darkGray"
+    $file1_dialog_button.ForeColor = "White"
+    $file1_dialog_button.Backcolor = "#606060"
     $file1_dialog_button.Add_Click(
     {    
 		    $script:prompt_return = prompt_for_folder
@@ -184,7 +190,7 @@ function scan_target ($target)
     where { $_.count -gt 1 }
  
 
-    add-content "$dir\Results\$output" "Hash,Path,File,Directory,File,Type,Size GB,Size MB,Size KB,Last Modified Date,Last Accessed Date,Creation Date,Full Path"
+    add-content -literalpath "$dir\Results\$output" "Hash,Path,File,Directory,File,Type,Size GB,Size MB,Size KB,Last Modified Date,Last Accessed Date,Creation Date,Full Path"
     $writer = new-object system.IO.StreamWriter("$dir\Results\$output",$true)
     foreach ($group in $files) 
     {
